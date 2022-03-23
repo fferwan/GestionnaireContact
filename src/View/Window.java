@@ -41,7 +41,7 @@ public class Window extends JFrame implements Observer{
 	
 	//Dans contactsPanel
 	private JList contactsList;
-	DefaultListModel model;
+	private DefaultListModel model;
 	
 	private Gestionnaire gestionnaire;
 	
@@ -87,7 +87,7 @@ public class Window extends JFrame implements Observer{
 		contactsConstraints.gridx = 0;
 		contactsConstraints.gridy = 0;
 		model = new DefaultListModel();
-		contactsList = new JList(model);
+		this.contactsList = new JList(model);
 		ajouterContacts(gestionnaire.getMesContacts());
 		contactsPanel.add(contactsList);
 		
@@ -101,6 +101,7 @@ public class Window extends JFrame implements Observer{
 		this.setSize(windowWidth, windowHeight); 
 		this.setLocation((int) screenWidth/2 - windowWidth/2, (int) screenHeight/2 - windowHeight/2);
 		
+		System.out.println(this.model.get(0));
 	}
 
 	public void ajouterContact(Contact contact) {
@@ -200,5 +201,29 @@ public class Window extends JFrame implements Observer{
 		System.out.println("Le gestionnaire a subit des modifications");
 		Gestionnaire g = (Gestionnaire) o;
 		this.afficherContacts();
+	}
+
+	public DefaultListModel getModel() {
+		return model;
+	}
+
+	public void setModel(DefaultListModel model) {
+		this.model = model;
+	}
+
+	public JButton getModifierButton() {
+		return modifierButton;
+	}
+
+	public void setModifierButton(JButton modifierButton) {
+		this.modifierButton = modifierButton;
+	}
+
+	public JButton getSupprimerButton() {
+		return supprimerButton;
+	}
+
+	public void setSupprimerButton(JButton supprimerButton) {
+		this.supprimerButton = supprimerButton;
 	}
 }

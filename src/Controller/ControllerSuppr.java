@@ -10,30 +10,28 @@ import java.awt.event.*;
 public class ControllerSuppr implements ActionListener{
 	
 	private Gestionnaire gestionnaire;
-	private JButton boutonSupprimer;
-	private JLabel nom;
-	private JLabel prenom;
-	private JLabel num;
-	private Window window;
-	private ContactView contactView;
+	private JButton supprimerButton;
+	private JTextField nom;
+	private JTextField prenom;
+	private JTextField num;
+	private JList listContacts;
 	
-	public ControllerSuppr(Gestionnaire gestionnaire, Window window, JLabel nom, JLabel prenom, JLabel num, ContactView contactView, JButton bouton){
+	public ControllerSuppr(Gestionnaire gestionnaire, JTextField nom, JTextField prenom, JTextField num, JButton supprimerButton, JList listContacts){
 		this.gestionnaire = gestionnaire;
-		this.window = window;
 		this.nom = nom;
 		this.prenom = prenom;
 		this.num = num;
-		this.contactView=contactView;
-		this.boutonSupprimer=bouton;
-	
-		this.boutonSupprimer.addActionListener(this);
+		this.supprimerButton=supprimerButton;
+		this.listContacts = listContacts;
+		this.supprimerButton.addActionListener(this);
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		System.out.println("Bouton supprimer cliqué");
 		// TODO Auto-generated method stub
-		int index = gestionnaire.rechercher(this.num.getText());
-		Contact contact = gestionnaire.getMesContacts().get(index);
-		this.gestionnaire.supprimer(contact);
+		int index = this.listContacts.getSelectedIndex();
+		this.gestionnaire.supprimer(index);
+		gestionnaire.afficher();
 	}
 }

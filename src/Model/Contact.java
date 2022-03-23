@@ -36,9 +36,11 @@ public class Contact implements Serializable {
     }
     public boolean equals(Contact c) {
         if(this.nom.equals(c.getNom()) && this.num.equals(c.getNum()) && this.prenom.equals(c.getPrenom())) {
+        	System.out.println("true");
             return true;
         }
         else{
+        	System.out.println("false");
             return false;
         }
     }

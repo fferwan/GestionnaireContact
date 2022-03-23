@@ -38,6 +38,22 @@ public class Gestionnaire extends Observable{
         }
         //sauvegarder les données ici
     }
+    
+    public void supprimer(int index){
+    	System.out.println("taille avant suppression : " + this.mesContacts.size());
+        this.mesContacts.remove(index);
+        System.out.println("taille apres suppression : " + this.mesContacts.size());
+        this.setChanged();
+        this.notifyObservers();
+        try {
+            sr.ecrireContact(mesContacts);//serialization des contacts 
+        } catch (ClassNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        //sauvegarder les données ici
+    }
+    
     public void afficher(){
         for (int i=0; i<this.mesContacts.size() ; i++){
             System.out.println(mesContacts.get(i).afficher());
@@ -60,16 +76,30 @@ public class Gestionnaire extends Observable{
                 this.mesContacts.get(i).setNom(newcontact.getNom());
                 this.mesContacts.get(i).setPrenom(newcontact.getPrenom());
                 this.mesContacts.get(i).setNum(newcontact.getNum());
-                this.setChanged();
-                this.notifyObservers();
-                try {
-                    sr.ecrireContact(mesContacts);//serialization des contacts 
-                } catch (ClassNotFoundException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
                 //sauvegarder les données ici
             }
+        }
+        this.setChanged();
+        this.notifyObservers();
+        try {
+            sr.ecrireContact(mesContacts);//serialization des contacts 
+        } catch (ClassNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+    
+    public void modifier(Contact newContact,int index) {
+        this.mesContacts.get(index).setNom(newContact.getNom());
+        this.mesContacts.get(index).setPrenom(newContact.getPrenom());
+        this.mesContacts.get(index).setNum(newContact.getNum());
+        this.setChanged();
+        this.notifyObservers();
+        try {
+            sr.ecrireContact(mesContacts);//serialization des contacts 
+        } catch (ClassNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
     }
     

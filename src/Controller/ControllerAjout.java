@@ -3,6 +3,7 @@ package Controller;
 import Model.Gestionnaire;
 import Model.Contact;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -15,16 +16,15 @@ public class ControllerAjout implements ActionListener {
 
 	private Gestionnaire gestionnaire;
 	private JTextField nom, prenom, num;
-	private Window window;
+	private JButton ajouterButton;
 	
-	public ControllerAjout(JTextField nom, JTextField prenom, JTextField num, Gestionnaire gestionnaire, Window window, JPanel contactsPanel){
+	public ControllerAjout(JTextField nom, JTextField prenom, JTextField num, Gestionnaire gestionnaire, JButton ajouterButton, JPanel contactsPanel){
 		this.gestionnaire = gestionnaire;
-		this.window = window;
+		this.ajouterButton = ajouterButton;
 		this.nom = nom;
 		this.prenom = prenom;
 		this.num = num;
-		
-		this.window.getAjouterButton().addActionListener(this);
+		ajouterButton.addActionListener(this);
 	}
 	
 	@Override
