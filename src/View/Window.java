@@ -33,6 +33,8 @@ public class Window extends JFrame implements Observer{
 	//Dans leftPanel
 	private JPanel choixPanel;
 	private JButton ajouterButton;
+	private JButton modifierButton;
+	private JButton supprimerButton;
 	private JTextField nomTextField;
 	private JTextField prenomTextField;
 	private JTextField numTextField;
@@ -49,6 +51,8 @@ public class Window extends JFrame implements Observer{
 		
 		//Init Components
 		this.ajouterButton = new JButton("Ajouter");
+		this.modifierButton = new JButton("Modifier");
+		this.supprimerButton = new JButton("Supprimer");
 		this.nomTextField = new JTextField("Nom");
 		this.prenomTextField = new JTextField("Prenom");
 		this.numTextField = new JTextField("Num");
@@ -67,8 +71,11 @@ public class Window extends JFrame implements Observer{
 		leftPanelConstraints.gridy = 2;
 		leftPanel.add(this.numTextField, leftPanelConstraints);
 		leftPanelConstraints.gridy = 3;
-		leftPanelConstraints.weightx = 0;
 		leftPanel.add(this.ajouterButton, leftPanelConstraints);
+		leftPanelConstraints.gridy = 4;
+		leftPanel.add(this.modifierButton, leftPanelConstraints);
+		leftPanelConstraints.gridy = 5;
+		leftPanel.add(this.supprimerButton, leftPanelConstraints);
 		
 		//Init contactsPanel
 		contactsPanel = new JPanel();
