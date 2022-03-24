@@ -1,57 +1,103 @@
 package Model;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.*;
 
 public class Gestionnaire extends Observable{
 	
-    SerializationAndDeseralization sr;
-    ArrayList<Contact> mesContacts;
-    
+    private SerializationAndDeseralization sr;
+    private ArrayList<Contact> mesContacts;
+	private final String urlBdd = "jdbc:mysql://localhost:3306/bddcontacts?autoReconnect=true&useSSL=false";
+	private final String user = "root";
+	private final String password ="root";
+	private Connection connection;
+	private Statement statement;
+	private PreparedStatement preparedStatement;
+	private ResultSet resultSet;
+	private CallableStatement callableStatement;
+	
     public Gestionnaire() {
-        this.mesContacts=new ArrayList<Contact>();
-        sr=new SerializationAndDeseralization();
-        this.mesContacts=sr.charger();//Deserialization des contacts 
+        this.mesContacts = new ArrayList<Contact>();
 
+        //Connexion à la BDD
+        try {
+			connection = DriverManager.getConnection(urlBdd, user, password);
+			statement = connection.createStatement();
+			preparedStatement = connection.prepareStatement("");
+			recupererContacts();
+        } catch (SQLException e) {
+			System.out.println("Erreur de connexion à la base de données");
+		}
     }
     
-    public void ajouter(Contact contact) {  
+    public void ajouter(Contact contact) {
+    	//Ajout dans le modèle
         this.mesContacts.add(contact);
-        this.setChanged();
+        
+        //Ajout dans la BDD
+        String req = "INSERT INTO Contacts VALUES(?,?,?);";
+		try {
+			//Préparation de la requête
+			this.preparedStatement = this.connection.prepareStatement(req);
+			this.preparedStatement.setString(1, contact.getNom()); // Remplace le ? n°1
+			this.preparedStatement.setString(2, contact.getPrenom()); // Remplace le ? n°2
+	        this.preparedStatement.setString(3, contact.getNum()); // Remplace le ? n°3
+	        
+	        //Envoi de la requête et récupération des données dans resultSet
+			this.preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		this.setChanged();
         this.notifyObservers();
-        try {
-            sr.ecrireContact(mesContacts);//serialization des contacts 
-        } catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+	}
+    
+    public void recupererContacts(){
+      try {
+            String requetePrep = "SELECT * FROM Contacts;";
+            this.preparedStatement = this.connection.prepareStatement(requetePrep);
+            resultSet = this.preparedStatement.executeQuery();
+            while (resultSet.next()) {
+	            this.mesContacts.add(new Contact(resultSet.getString("last_name"),resultSet.getString("first_name"), resultSet.getString("number")));
+	        }
         }
-        //sauvegarder les données ici
-    }
-    public void supprimer(Contact contact){
+        catch(SQLException esql) {
+            System.out.println(esql);
+        }
+    }   
+    
+    public void supprimer(Contact contact){	//non utilisée (normalement)
         this.mesContacts.remove(contact);
         this.setChanged();
         this.notifyObservers();
-        try {
-            sr.ecrireContact(mesContacts);//serialization des contacts 
-        } catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        //sauvegarder les données ici
+        
     }
     
     public void supprimer(int index){
-    	System.out.println("taille avant suppression : " + this.mesContacts.size());
+
+        //sauvegarder les données ici
+
+        try {
+            String requetePrep = "DELETE FROM Contacts WHERE number = ?";
+            this.preparedStatement = this.connection.prepareStatement(requetePrep);
+            String num = this.mesContacts.get(index).getNum();
+            this.preparedStatement.setString(1, num); 
+            this.preparedStatement.executeUpdate();
+        }
+        catch(SQLException esql) {
+            System.out.println(esql);
+        }
         this.mesContacts.remove(index);
-        System.out.println("taille apres suppression : " + this.mesContacts.size());
         this.setChanged();
         this.notifyObservers();
-        try {
-            sr.ecrireContact(mesContacts);//serialization des contacts 
-        } catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        //sauvegarder les données ici
+        
     }
     
     public void afficher(){
@@ -69,7 +115,7 @@ public class Gestionnaire extends Observable{
         }
     	return -1;
     }
-    
+
     public void modifier(Contact newcontact,Contact contactAmodifier) {
         for (int i=0;i<this.mesContacts.size();i++) {
             if( this.mesContacts.get(i).equals(contactAmodifier)) { 
@@ -89,18 +135,27 @@ public class Gestionnaire extends Observable{
         }
     }
     
-    public void modifier(Contact newContact,int index) {
+    public void modifier(Contact newContact, Contact contactAModifier, int index) {
+
+        try {
+            String requetePrep = "UPDATE contacts SET last_name = ?, first_name = ?, number = ? where number = ?";
+            this.preparedStatement = connection.prepareStatement(requetePrep);
+            this.preparedStatement.setString(4, contactAModifier.getNum());
+            this.preparedStatement.setString(1, newContact.getNom());
+            this.preparedStatement.setString(2, newContact.getPrenom());
+            this.preparedStatement.setString(3, newContact.getNum());
+            this.preparedStatement.executeUpdate();
+        }
+        catch(SQLException esql) {
+            System.out.println(esql);
+        }
+        
         this.mesContacts.get(index).setNom(newContact.getNom());
         this.mesContacts.get(index).setPrenom(newContact.getPrenom());
         this.mesContacts.get(index).setNum(newContact.getNum());
+        
         this.setChanged();
         this.notifyObservers();
-        try {
-            sr.ecrireContact(mesContacts);//serialization des contacts 
-        } catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
     }
     
     public ArrayList<Contact> getMesContacts() {
@@ -111,11 +166,5 @@ public class Gestionnaire extends Observable{
         this.mesContacts = mesContacts; 
         this.setChanged();
         this.notifyObservers();
-        try {
-            sr.ecrireContact(mesContacts); //serialization des contacts 
-        } catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
     }
 }

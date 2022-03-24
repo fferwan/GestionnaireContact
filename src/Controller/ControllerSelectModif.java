@@ -1,13 +1,9 @@
 package Controller;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JTextField;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.JList;
 
 import Model.Contact;
@@ -48,7 +44,6 @@ public class ControllerSelectModif implements MouseListener {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		
 	}
 
 	@Override

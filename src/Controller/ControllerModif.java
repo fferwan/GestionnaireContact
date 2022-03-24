@@ -38,6 +38,6 @@ public class ControllerModif implements ActionListener {
 		int index = this.listContacts.getSelectedIndex();
 		Contact oldContact = gestionnaire.getMesContacts().get(index);
 		Contact newContact = new Contact(this.nom.getText(), this.prenom.getText(), this.numero.getText());
-		this.gestionnaire.modifier(newContact, index);
+		this.gestionnaire.modifier(newContact, oldContact, index);
 	}
 }
