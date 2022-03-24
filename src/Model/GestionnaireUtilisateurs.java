@@ -11,9 +11,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class GestionnaireAppareil extends Observable{
+public class GestionnaireUtilisateurs extends Observable{
 
-	private ArrayList<Appareil> mesAppareils;
+	private ArrayList<Utilisateur> mesUtilisateurs;
 	private String nom;
 	private int id;
 	private final String urlBdd = "jdbc:mysql://localhost:3306/bddcontacts3?autoReconnect=true&useSSL=false";
@@ -41,86 +41,86 @@ public class GestionnaireAppareil extends Observable{
 		this.id = id;
 	}
 	
-	public GestionnaireAppareil() {	 
-		this.mesAppareils = new ArrayList<Appareil>();
+	public GestionnaireUtilisateurs() {	 
+		this.mesUtilisateurs = new ArrayList<Utilisateur>();
 
 		try {
 			connection = DriverManager.getConnection(urlBdd, user, password);
 			statement = connection.createStatement();
 			preparedStatement = connection.prepareStatement("");
-			recupererAppareils();
+			recupererUtilisateurs();
 		} catch (SQLException e) {
 			System.out.println("Erreur de connexion à la base de données");
 		}
 	}
 	
-	public GestionnaireAppareil(int id,String nom) {	 
+	public GestionnaireUtilisateurs(int id,String nom) {	 
 		this.id=id;
 		this.nom=nom;
 	}
 
-	public void ajouterAppareil(Appareil appareil) {
+	public void ajouterUtilisateur(Utilisateur utilisateur) {
 		//Ajout dans le modèle
-		this.mesAppareils.add(appareil);
+		this.mesUtilisateurs.add(utilisateur);
 
 		//Ajout dans la BDD
-		String req = "INSERT INTO appareils(name) VALUES(?);";
+		String req = "INSERT INTO utilisateurs(name) VALUES(?);";
 		try {
 			//Préparation de la requête
 			this.preparedStatement = this.connection.prepareStatement(req);
-			this.preparedStatement.setString(1, appareil.getNom()); // Remplace le ? n°2
+			this.preparedStatement.setString(1, utilisateur.getNom()); // Remplace le ? n°2
 
 
 			//Envoi de la requête et récupération des données dans resultSet
 			this.preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			System.out.println("Erreur lors de l'ajout de l'appareil");
+			System.out.println("Erreur lors de l'ajout de l'utilsateur");
 			e.printStackTrace();
 		}
 		this.setChanged();
         this.notifyObservers();
 	}
 	
-	public void recupererAppareils(){
+	public void recupererUtilisateurs(){
 		try {
-			String requetePrep = "SELECT * FROM appareils;";
+			String requetePrep = "SELECT * FROM utilisateurs;";
 			this.preparedStatement = this.connection.prepareStatement(requetePrep);
 			resultSet = this.preparedStatement.executeQuery();
 			while (resultSet.next()) {
-				this.mesAppareils.add(new Appareil(resultSet.getString("name")));
+				this.mesUtilisateurs.add(new Utilisateur(resultSet.getString("name")));
 			}
 		}
 		catch(SQLException esql) {
-			System.out.println("Erreur lors de la récupération des appareils dans la base");
+			System.out.println("Erreur lors de la récupération des utilisateurs dans la base");
 			esql.printStackTrace();
 		}
 	} 
 	
-	public void supprimerAppareil(int index){
+	public void supprimerUtilisateur(int index){
 
 		//sauvegarder les données ici
 		try {
-			String requetePrep = "DELETE FROM appareils WHERE name = ?";
+			String requetePrep = "DELETE FROM utilisateurs WHERE name = ?";
 			this.preparedStatement = this.connection.prepareStatement(requetePrep);
-			String nom = this.mesAppareils.get(index).getNom();
+			String nom = this.mesUtilisateurs.get(index).getNom();
 			this.preparedStatement.setString(1, nom);
 			this.preparedStatement.executeUpdate();
 		}
 		catch(SQLException esql) {
-			System.out.println("Erreur lors de la suppression de l'appareil dans la base");
+			System.out.println("Erreur lors de la suppression de l'utilisateur dans la base");
 			System.out.println(esql);
 		}
-		this.mesAppareils.remove(index);
+		this.mesUtilisateurs.remove(index);
 		this.setChanged();
 		this.notifyObservers();
 
 	}
 
-	public ArrayList<Appareil> getMesAppareils() {
-		return mesAppareils;
+	public ArrayList<Utilisateur> getMesUtilisateurs() {
+		return mesUtilisateurs;
 	}
 
-	public void setMesAppareils(ArrayList<Appareil> mesAppareils) {
-		this.mesAppareils = mesAppareils;
+	public void setMesUtilisateurs(ArrayList<Utilisateur> mesUtilisateurs) {
+		this.mesUtilisateurs = mesUtilisateurs;
 	}
 }

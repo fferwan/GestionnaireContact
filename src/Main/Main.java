@@ -1,7 +1,7 @@
 package Main;
 
 import View.Window;
-import View.WindowAppareils;
+import View.WindowUtilisateurs;
 
 import java.util.ArrayList;
 
@@ -10,17 +10,17 @@ import javax.swing.JTextField;
 
 import Controller.*;
 import Model.Contact;
-import Model.GestionnaireAppareil;
+import Model.GestionnaireUtilisateurs;
 public class Main {
 
 	static int a;
 	public static void main(String[] args) {
-		WindowAppareils windowAppareils = new WindowAppareils();
+		WindowUtilisateurs windowAppareils = new WindowUtilisateurs();
 
 		//gestionnaire.setMesContacts(new ArrayList<Contact>());
-		ControllerAjoutAppareil controllerAjoutAppareil = new ControllerAjoutAppareil(windowAppareils.getGestionnaire(), windowAppareils.getNomTextField(), windowAppareils.getAjouterButton());
-		ControllerSupprAppareil controllerSupprAppareil = new ControllerSupprAppareil(windowAppareils.getGestionnaire(), windowAppareils.getAppareilsList(), windowAppareils.getSupprimerButton());
-		ControllerSelectAppareil controllerModifAppareil = new ControllerSelectAppareil(windowAppareils.getGestionnaire(), windowAppareils.getSelectionnerButton(), windowAppareils.getAppareilsList());
+		ControllerAjoutUtilisateur controllerAjoutAppareil = new ControllerAjoutUtilisateur(windowAppareils.getGestionnaire(), windowAppareils.getNomTextField(), windowAppareils.getAjouterButton());
+		ControllerSupprUtilisateur controllerSupprAppareil = new ControllerSupprUtilisateur(windowAppareils.getGestionnaire(), windowAppareils.getAppareilsList(), windowAppareils.getSupprimerButton());
+		ControllerSelectUtilisateur controllerModifAppareil = new ControllerSelectUtilisateur(windowAppareils.getGestionnaire(), windowAppareils.getSelectionnerButton(), windowAppareils.getAppareilsList());
 		windowAppareils.show();
 	}
 

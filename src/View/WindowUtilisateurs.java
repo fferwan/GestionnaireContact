@@ -18,7 +18,7 @@ import javax.swing.JTextField;
 
 import Model.*;
 
-public class WindowAppareils extends JFrame implements Observer{
+public class WindowUtilisateurs extends JFrame implements Observer{
 	
 	private static final long serialVersionUID = 0;
 	private final static double screenWidth = Toolkit.getDefaultToolkit( ).getScreenSize().getWidth();
@@ -42,10 +42,10 @@ public class WindowAppareils extends JFrame implements Observer{
 	private JList appareilsList;
 	private DefaultListModel model;
 	
-	private GestionnaireAppareil gestionnaire;
+	private GestionnaireUtilisateurs gestionnaire;
 	
-	public WindowAppareils(){
-		this.gestionnaire = new GestionnaireAppareil();
+	public WindowUtilisateurs(){
+		this.gestionnaire = new GestionnaireUtilisateurs();
 		
 		//Init Components
 		this.ajouterButton = new JButton("Ajouter");
@@ -80,7 +80,7 @@ public class WindowAppareils extends JFrame implements Observer{
 		contactsConstraints.gridy = 0;
 		model = new DefaultListModel();
 		this.appareilsList = new JList(model);
-		ajouterAppareils(gestionnaire.getMesAppareils());
+		ajouterAppareils(gestionnaire.getMesUtilisateurs());
 		contactsPanel.add(appareilsList);
 		
 		this.gestionnaire.addObserver(this);
@@ -89,18 +89,18 @@ public class WindowAppareils extends JFrame implements Observer{
 		this.add(leftPanel);
 		this.add(contactsPanel);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
-		this.setTitle ("Telephone");
+		this.setTitle ("Utilisateur");
 		this.setSize(windowWidth, windowHeight); 
 		this.setLocation((int) screenWidth/2 - windowWidth/2, (int) screenHeight/2 - windowHeight/2);
 	}
 	
-	public void ajouterAppareil(Appareil appareil) {
+	public void ajouterAppareil(Utilisateur appareil) {
 		System.out.println("Ajout d'un contact");
 		model.addElement(appareil);
 		appareilsList.updateUI();
 	}
 
-	public void ajouterAppareils(ArrayList<Appareil> appareils) {
+	public void ajouterAppareils(ArrayList<Utilisateur> appareils) {
 		this.model.removeAllElements();
 		for(int i = 0; i < appareils.size(); i++) {
 			model.addElement(appareils.get(i));
@@ -109,14 +109,14 @@ public class WindowAppareils extends JFrame implements Observer{
 	
 	public void afficherAppareils() {
 		this.model.removeAllElements();
-		for(int i = 0; i < gestionnaire.getMesAppareils().size(); i++) {
-			model.addElement(gestionnaire.getMesAppareils().get(i));
+		for(int i = 0; i < gestionnaire.getMesUtilisateurs().size(); i++) {
+			model.addElement(gestionnaire.getMesUtilisateurs().get(i));
 		}
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
-		GestionnaireAppareil g = (GestionnaireAppareil) o;
+		GestionnaireUtilisateurs g = (GestionnaireUtilisateurs) o;
 		this.afficherAppareils();
 	}
 
@@ -160,11 +160,11 @@ public class WindowAppareils extends JFrame implements Observer{
 		this.appareilsList = appareilsList;
 	}
 
-	public GestionnaireAppareil getGestionnaire() {
+	public GestionnaireUtilisateurs getGestionnaire() {
 		return gestionnaire;
 	}
 
-	public void setGestionnaire(GestionnaireAppareil gestionnaire) {
+	public void setGestionnaire(GestionnaireUtilisateurs gestionnaire) {
 		this.gestionnaire = gestionnaire;
 	}
 }

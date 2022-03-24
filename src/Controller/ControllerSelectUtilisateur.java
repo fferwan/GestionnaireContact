@@ -8,30 +8,30 @@ import javax.swing.JList;
 import javax.swing.JTextField;
 
 import Model.GestionnaireContacts;
-import Model.GestionnaireAppareil;
+import Model.GestionnaireUtilisateurs;
 import View.Window;
 
-public class ControllerSelectAppareil implements ActionListener{
+public class ControllerSelectUtilisateur implements ActionListener{
 
 	private JButton selectionnerButton;
-	private GestionnaireAppareil gestionnaireAppareils;
-	private JList listAppareils;
+	private GestionnaireUtilisateurs gestionnaireUtilisateurs;
+	private JList listUtilisateurs;
 	
-	public ControllerSelectAppareil(GestionnaireAppareil gestionnaire, JButton selectionnerButton, JList listAppareils) {
-		this.gestionnaireAppareils = gestionnaire;
+	public ControllerSelectUtilisateur(GestionnaireUtilisateurs gestionnaire, JButton selectionnerButton, JList listUtilisateurs) {
+		this.gestionnaireUtilisateurs = gestionnaire;
 		this.selectionnerButton = selectionnerButton;
-		this.listAppareils = listAppareils;
+		this.listUtilisateurs = listUtilisateurs;
 		
 		this.selectionnerButton.addActionListener(this);
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		int index = this.listAppareils.getSelectedIndex();
+		int index = this.listUtilisateurs.getSelectedIndex();
 		GestionnaireContacts gestionnaireContacts = new GestionnaireContacts();
-		gestionnaireContacts.setAppareil(this.gestionnaireAppareils.getMesAppareils().get(index));
+		gestionnaireContacts.setUtilisateur(this.gestionnaireUtilisateurs.getMesUtilisateurs().get(index));
 		gestionnaireContacts.recupererContacts();
-		this.gestionnaireAppareils.getMesAppareils().get(index).setGestionnaire(gestionnaireContacts);
+		this.gestionnaireUtilisateurs.getMesUtilisateurs().get(index).setGestionnaire(gestionnaireContacts);
 		
 		creerWindow(gestionnaireContacts);
 	}

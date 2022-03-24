@@ -1,11 +1,11 @@
 package Model;
 
-public class Appareil {
+public class Utilisateur {
 	
 	private String nom;
 	private GestionnaireContacts gestionnaire;
 	
-	public Appareil(String nom)
+	public Utilisateur(String nom)
 	{
 		this.nom = nom;
 	}

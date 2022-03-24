@@ -12,7 +12,7 @@ import java.util.*;
 public class GestionnaireContacts extends Observable{
 
     private ArrayList<Contact> mesContacts;
-    private Appareil appareil;
+    private Utilisateur utilisateur;
 	private final String urlBdd = "jdbc:mysql://localhost:3306/bddcontacts3?autoReconnect=true&useSSL=false";
 	private final String user = "root";
 	private final String password ="root";
@@ -34,19 +34,19 @@ public class GestionnaireContacts extends Observable{
 		}
     }
     
-    public int getIdFromAppareil(Appareil appareil) {
-    	String req = "SELECT appareils.id_appareils FROM appareils WHERE name = ?;";
+    public int getIdFromUtilisateur(Utilisateur utilisateur) {
+    	String req = "SELECT utilisateurs.id_utilisateurs FROM utilisateurs WHERE name = ?;";
     	int id = -1;
     	try {
-	        //Préparation de la requête pour récupérer l'id de l'appareil utilisé 
+	        //Préparation de la requête pour récupérer l'id de l'utilisateur utilisé 
 	        this.preparedStatement = this.connection.prepareStatement(req);
-			this.preparedStatement.setString(1, this.appareil.getNom());  
+			this.preparedStatement.setString(1, this.utilisateur.getNom());  
 	        this.resultSet=this.preparedStatement.executeQuery();
 	        resultSet.next();
-	        id=resultSet.getInt("id_appareils");
+	        id=resultSet.getInt("id_utilisateurs");
 
 		} catch (SQLException e) {
-			System.out.println("Erreur à la récupération de l'id de l'appareil");
+			System.out.println("Erreur à la récupération de l'id de l'utilisateurs");
 			e.printStackTrace();
 		}
     	return id;
@@ -78,13 +78,13 @@ public class GestionnaireContacts extends Observable{
     public void ajouter(Contact contact) {
     	
     	int id;
-        String req = "INSERT INTO Contacts(last_name, first_name, number,id_appareils) VALUES(?,?,?,?);";
+        String req = "INSERT INTO Contacts(last_name, first_name, number,id_utilisateurs) VALUES(?,?,?,?);";
     	//Ajout dans le modèle
         this.mesContacts.add(contact);
         
         //Ajout dans la BDD
 		try {
-			id=getIdFromAppareil(appareil);
+			id=getIdFromUtilisateur(utilisateur);
 			//Préparation de la requête d'ajout du contact
 			this.preparedStatement = this.connection.prepareStatement(req);
 			this.preparedStatement.setString(1, contact.getNom()); 
@@ -106,10 +106,10 @@ public class GestionnaireContacts extends Observable{
     public void recupererContacts(){
       try {
             String requetePrep = "SELECT contacts.last_name, contacts.first_name, contacts.number FROM Contacts "
-            +"INNER JOIN appareils ON appareils.id_appareils = contacts.id_appareils "
-            +"WHERE appareils.name = ?;";
+            +"INNER JOIN utilisateurs ON utilisateurs.id_utilisateurs = contacts.id_utilisateurs "
+            +"WHERE utilisateurs.name = ?;";
             this.preparedStatement = this.connection.prepareStatement(requetePrep);
-            this.preparedStatement.setString(1, this.appareil.getNom()); 
+            this.preparedStatement.setString(1, this.utilisateur.getNom()); 
             System.out.println(this.preparedStatement.toString());
             resultSet = this.preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -199,11 +199,11 @@ public class GestionnaireContacts extends Observable{
         this.notifyObservers();
     }
 
-	public Appareil getAppareil() {
-		return appareil;
+	public Utilisateur getUtilisateur() {
+		return utilisateur;
 	}
 
-	public void setAppareil(Appareil appareil) {
-		this.appareil = appareil;
+	public void setUtilisateur(Utilisateur utilisateur) {
+		this.utilisateur = utilisateur;
 	}
 }

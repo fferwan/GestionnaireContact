@@ -1,7 +1,7 @@
 package Controller;
 
-import Model.GestionnaireAppareil;
-import Model.Appareil;
+import Model.GestionnaireUtilisateurs;
+import Model.Utilisateur;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -13,16 +13,16 @@ import View.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ControllerSupprAppareil implements ActionListener {
+public class ControllerSupprUtilisateur implements ActionListener {
 	
 	private JButton buttonSuppr;
-	private GestionnaireAppareil gestionnaireAppareil;
-	private JTextField nomAppareil;
+	private GestionnaireUtilisateurs gestionnaireUtilisateurs;
+	private JTextField nomUtilisateur;
 	private JList listAppareil;
 	
-	public ControllerSupprAppareil(GestionnaireAppareil gestionnaireAppareil, JList listAppareil, JButton buttonSuppr)
+	public ControllerSupprUtilisateur(GestionnaireUtilisateurs gestionnaireAppareil, JList listAppareil, JButton buttonSuppr)
 	{
-		this.gestionnaireAppareil = gestionnaireAppareil;
+		this.gestionnaireUtilisateurs = gestionnaireAppareil;
 		this.buttonSuppr = buttonSuppr;
 		this.listAppareil = listAppareil;
 		
@@ -33,8 +33,8 @@ public class ControllerSupprAppareil implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		
 		int index = this.listAppareil.getSelectedIndex();
-		this.gestionnaireAppareil.supprimerAppareil(index); //à modifier selon la méthode créée
-		this.gestionnaireAppareil.recupererAppareils();
+		this.gestionnaireUtilisateurs.supprimerUtilisateur(index); //à modifier selon la méthode créée
+		this.gestionnaireUtilisateurs.recupererUtilisateurs();
 	}
 
 }

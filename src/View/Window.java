@@ -97,7 +97,7 @@ public class Window extends JFrame implements Observer{
 		this.add(leftPanel);
 		this.add(contactsPanel);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
-		this.setTitle ("Telephone");
+		this.setTitle ("Gestionnaire");
 		this.setSize(windowWidth, windowHeight); 
 		this.setLocation((int) screenWidth/2 - windowWidth/2, (int) screenHeight/2 - windowHeight/2);
 
