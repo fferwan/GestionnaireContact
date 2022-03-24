@@ -7,8 +7,6 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import View.ContactsPanel;
-import View.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -24,7 +22,7 @@ public class ControllerAjout implements ActionListener {
 		this.nom = nom;
 		this.prenom = prenom;
 		this.num = num;
-		ajouterButton.addActionListener(this);
+		this.ajouterButton.addActionListener(this);
 	}
 	
 	@Override

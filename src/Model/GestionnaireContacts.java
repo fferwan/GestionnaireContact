@@ -13,7 +13,7 @@ public class GestionnaireContacts extends Observable{
 
     private ArrayList<Contact> mesContacts;
     private Appareil appareil;
-	private final String urlBdd = "jdbc:mysql://localhost:3306/bddcontacts?autoReconnect=true&useSSL=false";
+	private final String urlBdd = "jdbc:mysql://localhost:3306/bddcontacts3?autoReconnect=true&useSSL=false";
 	private final String user = "root";
 	private final String password ="root";
 	private Connection connection;
@@ -34,22 +34,68 @@ public class GestionnaireContacts extends Observable{
 		}
     }
     
+    public int getIdFromAppareil(Appareil appareil) {
+    	String req = "SELECT appareils.id_appareils FROM appareils WHERE name = ?;";
+    	int id = -1;
+    	try {
+	        //Préparation de la requête pour récupérer l'id de l'appareil utilisé 
+	        this.preparedStatement = this.connection.prepareStatement(req);
+			this.preparedStatement.setString(1, this.appareil.getNom());  
+	        this.resultSet=this.preparedStatement.executeQuery();
+	        resultSet.next();
+	        id=resultSet.getInt("id_appareils");
+
+		} catch (SQLException e) {
+			System.out.println("Erreur à la récupération de l'id de l'appareil");
+			e.printStackTrace();
+		}
+    	return id;
+    }
+    
+    public int getIdFromContact(Contact contact) {
+    	String req = "SELECT contacts.id_contacts FROM contacts "
+    			+ "WHERE last_name = ? AND first_name = ? AND number = ?;";
+    	int id = -1;
+    	try {
+	        //Préparation de la requête pour récupérer l'id de l'appareil utilisé 
+	        this.preparedStatement = this.connection.prepareStatement(req);
+			this.preparedStatement.setString(1, contact.getNom()); 
+			System.out.println();
+			this.preparedStatement.setString(2, contact.getPrenom());  
+			this.preparedStatement.setString(3, contact.getNum()); 
+			System.out.println(this.preparedStatement.toString());
+	        this.resultSet=this.preparedStatement.executeQuery();
+	        resultSet.next();
+	        id=resultSet.getInt("id_contacts");
+	        System.out.println("id trouvé : " + id);
+		} catch (SQLException e) {
+			System.out.println("Erreur à la récupération de l'id_contact");
+			e.printStackTrace();
+		}
+    	return id;
+    }
+    
     public void ajouter(Contact contact) {
+    	
+    	int id;
+        String req = "INSERT INTO Contacts(last_name, first_name, number,id_appareils) VALUES(?,?,?,?);";
     	//Ajout dans le modèle
         this.mesContacts.add(contact);
         
         //Ajout dans la BDD
-        String req = "INSERT INTO Contacts VALUES(?,?,?);";
 		try {
-			//Préparation de la requête
+			id=getIdFromAppareil(appareil);
+			//Préparation de la requête d'ajout du contact
 			this.preparedStatement = this.connection.prepareStatement(req);
-			this.preparedStatement.setString(1, contact.getNom()); // Remplace le ? n°1
-			this.preparedStatement.setString(2, contact.getPrenom()); // Remplace le ? n°2
-	        this.preparedStatement.setString(3, contact.getNum()); // Remplace le ? n°3
+			this.preparedStatement.setString(1, contact.getNom()); 
+			this.preparedStatement.setString(2, contact.getPrenom()); 
+	        this.preparedStatement.setString(3, contact.getNum()); 
+	        this.preparedStatement.setInt(4, id); 
+	        System.out.println(this.preparedStatement.toString());
+	        this.preparedStatement.executeUpdate();
 	        
-	        //Envoi de la requête et récupération des données dans resultSet
-			this.preparedStatement.executeUpdate();
 		} catch (SQLException e) {
+			System.out.println("Erreur à l'ajout dans contacts dans la base de données ...");
 			e.printStackTrace();
 		}
 		
@@ -59,44 +105,40 @@ public class GestionnaireContacts extends Observable{
     
     public void recupererContacts(){
       try {
-            String requetePrep = "SELECT * FROM Contacts ";
-            requetePrep += "INNER JOIN appareils_contacts ON contacts.number = appareils_contacts.number ";
-            requetePrep += "INNER JOIN appareils ON appareils_contacts.id_appareils = appareils.id_appareils ";
-            requetePrep += "WHERE appareils.name = ?;";
-            this.preparedStatement.setString(1, this.appareil.getNom()); 
+            String requetePrep = "SELECT contacts.last_name, contacts.first_name, contacts.number FROM Contacts "
+            +"INNER JOIN appareils ON appareils.id_appareils = contacts.id_appareils "
+            +"WHERE appareils.name = ?;";
             this.preparedStatement = this.connection.prepareStatement(requetePrep);
+            this.preparedStatement.setString(1, this.appareil.getNom()); 
+            System.out.println(this.preparedStatement.toString());
             resultSet = this.preparedStatement.executeQuery();
             while (resultSet.next()) {
-	            this.mesContacts.add(new Contact(resultSet.getString("name"),resultSet.getString("first_name"), resultSet.getString("number")));
+	            this.mesContacts.add(new Contact(resultSet.getString("last_name"),resultSet.getString("first_name"), resultSet.getString("number")));
 	        }
         }
         catch(SQLException esql) {
+            System.out.println("Erreur lors de la récupération des contacts depuis la base de données");
             System.out.println(esql);
         }
     }   
-    
-    public void supprimer(Contact contact){	//non utilisée (normalement)
-        this.mesContacts.remove(contact);
-        this.setChanged();
-        this.notifyObservers();
-        
-    }
-    
+
     public void supprimer(int index){
 
-        //sauvegarder les données ici
-
         try {
-            String requetePrep = "DELETE FROM Contacts WHERE number = ?";
+            String requetePrep = "DELETE FROM Contacts WHERE id_contacts = ?";
+            //String num = this.mesContacts.get(index).getNum();
+            int id=getIdFromContact(this.getMesContacts().get(index));
             this.preparedStatement = this.connection.prepareStatement(requetePrep);
-            String num = this.mesContacts.get(index).getNum();
-            this.preparedStatement.setString(1, num); 
+            this.preparedStatement.setInt(1, id); 
             this.preparedStatement.executeUpdate();
         }
         catch(SQLException esql) {
+            System.out.println("Erreur lors de la suppression du contact dans la base de données");
             System.out.println(esql);
         }
+        
         this.mesContacts.remove(index);
+        
         this.setChanged();
         this.notifyObservers();
         
@@ -117,32 +159,25 @@ public class GestionnaireContacts extends Observable{
         }
     	return -1;
     }
-
-    public void modifier(Contact newcontact,Contact contactAmodifier) {
-        for (int i=0;i<this.mesContacts.size();i++) {
-            if( this.mesContacts.get(i).equals(contactAmodifier)) { 
-                this.mesContacts.get(i).setNom(newcontact.getNom());
-                this.mesContacts.get(i).setPrenom(newcontact.getPrenom());
-                this.mesContacts.get(i).setNum(newcontact.getNum());
-                //sauvegarder les données ici
-            }
-        }
-        this.setChanged();
-        this.notifyObservers();
-    }
     
     public void modifier(Contact newContact, Contact contactAModifier, int index) {
 
+    	String requete;
         try {
-            String requetePrep = "UPDATE contacts SET last_name = ?, first_name = ?, number = ? where number = ?";
-            this.preparedStatement = connection.prepareStatement(requetePrep);
-            this.preparedStatement.setString(4, contactAModifier.getNum());
-            this.preparedStatement.setString(1, newContact.getNom());
-            this.preparedStatement.setString(2, newContact.getPrenom());
+        	int id = this.getIdFromContact(contactAModifier);
+            requete = "UPDATE contacts SET first_name = ?, last_name = ?, number = ? WHERE id_contacts = ?;";
+            this.preparedStatement = this.connection.prepareStatement(requete);
+            this.preparedStatement.setString(1, newContact.getPrenom());
+            System.out.println(this.preparedStatement.toString());
+            this.preparedStatement.setString(2, newContact.getNom());
             this.preparedStatement.setString(3, newContact.getNum());
+            
+            this.preparedStatement.setInt(4, id);
+            System.out.println("modification !");
             this.preparedStatement.executeUpdate();
         }
         catch(SQLException esql) {
+            System.out.println("Erreur lors de la modification du contact dans la base de données");
             System.out.println(esql);
         }
         

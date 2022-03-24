@@ -1,15 +1,11 @@
 package Controller;
 
 import Model.GestionnaireAppareil;
-import Model.GestionnaireContacts;
 import Model.Appareil;
 
 import javax.swing.JButton;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import View.ContactsPanel;
-import View.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 

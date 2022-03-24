@@ -16,7 +16,7 @@ public class GestionnaireAppareil extends Observable{
 	private ArrayList<Appareil> mesAppareils;
 	private String nom;
 	private int id;
-	private final String urlBdd = "jdbc:mysql://localhost:3306/bddcontacts?autoReconnect=true&useSSL=false";
+	private final String urlBdd = "jdbc:mysql://localhost:3306/bddcontacts3?autoReconnect=true&useSSL=false";
 	private final String user = "root";
 	private final String password ="root";
 	private Connection connection;
@@ -74,6 +74,7 @@ public class GestionnaireAppareil extends Observable{
 			//Envoi de la requête et récupération des données dans resultSet
 			this.preparedStatement.executeUpdate();
 		} catch (SQLException e) {
+			System.out.println("Erreur lors de l'ajout de l'appareil");
 			e.printStackTrace();
 		}
 		this.setChanged();
@@ -90,7 +91,8 @@ public class GestionnaireAppareil extends Observable{
 			}
 		}
 		catch(SQLException esql) {
-			System.out.println(esql);
+			System.out.println("Erreur lors de la récupération des appareils dans la base");
+			esql.printStackTrace();
 		}
 	} 
 	
@@ -105,6 +107,7 @@ public class GestionnaireAppareil extends Observable{
 			this.preparedStatement.executeUpdate();
 		}
 		catch(SQLException esql) {
+			System.out.println("Erreur lors de la suppression de l'appareil dans la base");
 			System.out.println(esql);
 		}
 		this.mesAppareils.remove(index);
