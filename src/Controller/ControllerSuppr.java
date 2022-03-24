@@ -1,6 +1,6 @@
 package Controller;
 
-import Model.Gestionnaire;
+import Model.GestionnaireContacts;
 import Model.Contact;
 import View.*;
 import javax.swing.*;
@@ -9,14 +9,14 @@ import java.awt.event.*;
 
 public class ControllerSuppr implements ActionListener{
 	
-	private Gestionnaire gestionnaire;
+	private GestionnaireContacts gestionnaire;
 	private JButton supprimerButton;
 	private JTextField nom;
 	private JTextField prenom;
 	private JTextField num;
 	private JList listContacts;
 	
-	public ControllerSuppr(Gestionnaire gestionnaire, JTextField nom, JTextField prenom, JTextField num, JButton supprimerButton, JList listContacts){
+	public ControllerSuppr(GestionnaireContacts gestionnaire, JTextField nom, JTextField prenom, JTextField num, JButton supprimerButton, JList listContacts){
 		this.gestionnaire = gestionnaire;
 		this.nom = nom;
 		this.prenom = prenom;

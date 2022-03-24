@@ -7,17 +7,17 @@ import javax.swing.JTextField;
 import javax.swing.JList;
 
 import Model.Contact;
-import Model.Gestionnaire;
+import Model.GestionnaireContacts;
 
 public class ControllerSelectModif implements MouseListener {
 	
 	private JTextField nom;
 	private JTextField prenom;
 	private JTextField numero;
-	private Gestionnaire gestionnaire;
+	private GestionnaireContacts gestionnaire;
 	private JList listContacts;
 	
-	public ControllerSelectModif(Gestionnaire gestionnaire, JTextField nom, JTextField prenom, JTextField numero, JList listContacts)
+	public ControllerSelectModif(GestionnaireContacts gestionnaire, JTextField nom, JTextField prenom, JTextField numero, JList listContacts)
 	{
 		this.gestionnaire = gestionnaire;
 		this.nom = nom;

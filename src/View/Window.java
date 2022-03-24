@@ -14,7 +14,7 @@ import java.util.Observer;
 import javax.swing.*;
 
 import Model.Contact;
-import Model.Gestionnaire;
+import Model.GestionnaireContacts;
 
 public class Window extends JFrame implements Observer{
 
@@ -43,11 +43,11 @@ public class Window extends JFrame implements Observer{
 	private JList contactsList;
 	private DefaultListModel model;
 	
-	private Gestionnaire gestionnaire;
+	private GestionnaireContacts gestionnaire;
 	
-	public Window(){
+	public Window(GestionnaireContacts gestionnaire){
 
-		this.gestionnaire = new Gestionnaire();
+		this.gestionnaire = gestionnaire;
 		
 		//Init Components
 		this.ajouterButton = new JButton("Ajouter");
@@ -100,8 +100,7 @@ public class Window extends JFrame implements Observer{
 		this.setTitle ("Telephone");
 		this.setSize(windowWidth, windowHeight); 
 		this.setLocation((int) screenWidth/2 - windowWidth/2, (int) screenHeight/2 - windowHeight/2);
-		
-		System.out.println(this.model.get(0));
+
 	}
 
 	public void ajouterContact(Contact contact) {
@@ -188,18 +187,18 @@ public class Window extends JFrame implements Observer{
 		this.contactsList = contactsList;
 	}
 
-	public Gestionnaire getGestionnaire() {
+	public GestionnaireContacts getGestionnaire() {
 		return gestionnaire;
 	}
 
-	public void setGestionnaire(Gestionnaire gestionnaire) {
+	public void setGestionnaire(GestionnaireContacts gestionnaire) {
 		this.gestionnaire = gestionnaire;
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
 		System.out.println("Le gestionnaire a subit des modifications");
-		Gestionnaire g = (Gestionnaire) o;
+		GestionnaireContacts g = (GestionnaireContacts) o;
 		this.afficherContacts();
 	}
 

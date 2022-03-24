@@ -9,14 +9,14 @@ import java.util.Observer;
 import javax.swing.JPanel;
 
 import Model.Contact;
-import Model.Gestionnaire;
+import Model.GestionnaireContacts;
 import Controller.ControllerModif;
 
 public class ContactsPanel extends JPanel implements Observer{
 
 	private ArrayList<ContactView> contactViews;
 	private GridBagConstraints constraints;
-	private Gestionnaire gestionnaire;
+	private GestionnaireContacts gestionnaire;
 
 	public ContactsPanel() {
 		this.contactViews = new ArrayList<ContactView>();
@@ -56,7 +56,7 @@ public class ContactsPanel extends JPanel implements Observer{
 	@Override
 	public void update(Observable o, Object arg) {
 		System.out.println("Le gestionnaire a subit des modifications");
-		Gestionnaire g = (Gestionnaire) o;
+		GestionnaireContacts g = (GestionnaireContacts) o;
 		ajouterContacts(g.getMesContacts());
 		this.afficherContacts();
 	}

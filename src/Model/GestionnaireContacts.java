@@ -9,10 +9,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
 
-public class Gestionnaire extends Observable{
-	
-    private SerializationAndDeseralization sr;
+public class GestionnaireContacts extends Observable{
+
     private ArrayList<Contact> mesContacts;
+    private Appareil appareil;
 	private final String urlBdd = "jdbc:mysql://localhost:3306/bddcontacts?autoReconnect=true&useSSL=false";
 	private final String user = "root";
 	private final String password ="root";
@@ -20,9 +20,8 @@ public class Gestionnaire extends Observable{
 	private Statement statement;
 	private PreparedStatement preparedStatement;
 	private ResultSet resultSet;
-	private CallableStatement callableStatement;
 	
-    public Gestionnaire() {
+    public GestionnaireContacts() {
         this.mesContacts = new ArrayList<Contact>();
 
         //Connexion à la BDD
@@ -30,7 +29,6 @@ public class Gestionnaire extends Observable{
 			connection = DriverManager.getConnection(urlBdd, user, password);
 			statement = connection.createStatement();
 			preparedStatement = connection.prepareStatement("");
-			recupererContacts();
         } catch (SQLException e) {
 			System.out.println("Erreur de connexion à la base de données");
 		}
@@ -61,11 +59,15 @@ public class Gestionnaire extends Observable{
     
     public void recupererContacts(){
       try {
-            String requetePrep = "SELECT * FROM Contacts;";
+            String requetePrep = "SELECT * FROM Contacts ";
+            requetePrep += "INNER JOIN appareils_contacts ON contacts.number = appareils_contacts.number ";
+            requetePrep += "INNER JOIN appareils ON appareils_contacts.id_appareils = appareils.id_appareils ";
+            requetePrep += "WHERE appareils.name = ?;";
+            this.preparedStatement.setString(1, this.appareil.getNom()); 
             this.preparedStatement = this.connection.prepareStatement(requetePrep);
             resultSet = this.preparedStatement.executeQuery();
             while (resultSet.next()) {
-	            this.mesContacts.add(new Contact(resultSet.getString("last_name"),resultSet.getString("first_name"), resultSet.getString("number")));
+	            this.mesContacts.add(new Contact(resultSet.getString("name"),resultSet.getString("first_name"), resultSet.getString("number")));
 	        }
         }
         catch(SQLException esql) {
@@ -127,12 +129,6 @@ public class Gestionnaire extends Observable{
         }
         this.setChanged();
         this.notifyObservers();
-        try {
-            sr.ecrireContact(mesContacts);//serialization des contacts 
-        } catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
     }
     
     public void modifier(Contact newContact, Contact contactAModifier, int index) {
@@ -167,4 +163,12 @@ public class Gestionnaire extends Observable{
         this.setChanged();
         this.notifyObservers();
     }
+
+	public Appareil getAppareil() {
+		return appareil;
+	}
+
+	public void setAppareil(Appareil appareil) {
+		this.appareil = appareil;
+	}
 }

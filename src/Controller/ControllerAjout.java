@@ -1,6 +1,6 @@
 package Controller;
 
-import Model.Gestionnaire;
+import Model.GestionnaireContacts;
 import Model.Contact;
 
 import javax.swing.JButton;
@@ -14,11 +14,11 @@ import java.awt.event.ActionListener;
 
 public class ControllerAjout implements ActionListener {
 
-	private Gestionnaire gestionnaire;
+	private GestionnaireContacts gestionnaire;
 	private JTextField nom, prenom, num;
 	private JButton ajouterButton;
 	
-	public ControllerAjout(JTextField nom, JTextField prenom, JTextField num, Gestionnaire gestionnaire, JButton ajouterButton, JPanel contactsPanel){
+	public ControllerAjout(JTextField nom, JTextField prenom, JTextField num, GestionnaireContacts gestionnaire, JButton ajouterButton, JPanel contactsPanel){
 		this.gestionnaire = gestionnaire;
 		this.ajouterButton = ajouterButton;
 		this.nom = nom;

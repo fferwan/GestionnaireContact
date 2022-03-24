@@ -1,7 +1,7 @@
 package View;
 
 import Model.Contact;
-import Model.Gestionnaire;
+import Model.GestionnaireContacts;
 import View.Window;
 import Controller.ControllerModif;
 import java.awt.GridBagConstraints;

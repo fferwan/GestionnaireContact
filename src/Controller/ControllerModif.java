@@ -9,7 +9,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JList;
 
-import Model.Gestionnaire;
+import Model.GestionnaireContacts;
 import Model.Contact;
 import View.Window;
 import View.ContactView;
@@ -18,10 +18,10 @@ public class ControllerModif implements ActionListener {
 	
 	private JButton modifierButton;
 	private JTextField nom, prenom, numero;
-	private Gestionnaire gestionnaire;
+	private GestionnaireContacts gestionnaire;
 	private JList listContacts;
 	
-	public ControllerModif(Gestionnaire gestionnaire, JTextField nom, JTextField prenom, JTextField numero, JButton modifierButton, JList listContacts)
+	public ControllerModif(GestionnaireContacts gestionnaire, JTextField nom, JTextField prenom, JTextField numero, JButton modifierButton, JList listContacts)
 	{
 		this.gestionnaire = gestionnaire;
 		this.nom = nom;
