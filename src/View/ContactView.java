@@ -1,7 +1,12 @@
 package View;
 
-import Model.Contact;
+/*
 import Model.GestionnaireContacts;
+import Model.Contact;
+*/
+
+import ModelHibernate.GestionnaireContacts;
+import ModelHibernate.Contact;
 import View.Window;
 import Controller.ControllerModif;
 import java.awt.GridBagConstraints;

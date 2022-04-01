@@ -1,7 +1,12 @@
 package Controller;
 
+/*
 import Model.GestionnaireContacts;
 import Model.Contact;
+*/
+
+import ModelHibernate.GestionnaireContacts;
+import ModelHibernate.Contact;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -27,8 +32,9 @@ public class ControllerAjout implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		Contact nouveauContact = new Contact(this.nom.getText(), this.prenom.getText(), this.num.getText());
-		this.gestionnaire.ajouter(nouveauContact);
+		String nom = this.nom.getText();
+		String prenom = this.prenom.getText();
+		String num = this.num.getText();
+		this.gestionnaire.addContact(nom, prenom, num);
 	}
 }

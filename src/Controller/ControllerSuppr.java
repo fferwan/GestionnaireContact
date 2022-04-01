@@ -1,7 +1,12 @@
 package Controller;
 
+/*
 import Model.GestionnaireContacts;
 import Model.Contact;
+*/
+
+import ModelHibernate.GestionnaireContacts;
+import ModelHibernate.Contact;
 import View.*;
 import javax.swing.*;
 import View.Window;
@@ -29,9 +34,8 @@ public class ControllerSuppr implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		System.out.println("Bouton supprimer cliqué");
-		// TODO Auto-generated method stub
-		int index = this.listContacts.getSelectedIndex();
-		this.gestionnaire.supprimer(index);
+		int indexList = this.listContacts.getSelectedIndex();
+		this.gestionnaire.removeContact(indexList);
 		gestionnaire.afficher();
 	}
 }

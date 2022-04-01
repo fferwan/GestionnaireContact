@@ -3,14 +3,19 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JPanel;
 
-import Model.Contact;
+/*
 import Model.GestionnaireContacts;
-import Controller.ControllerModif;
+import Model.Contact;
+*/
+
+import ModelHibernate.GestionnaireContacts;
+import ModelHibernate.Contact;
 
 public class ContactsPanel extends JPanel implements Observer{
 
@@ -37,7 +42,7 @@ public class ContactsPanel extends JPanel implements Observer{
 		afficherContacts();
 	}
 
-	public void ajouterContacts(ArrayList<Contact> contacts) {
+	public void ajouterContacts(List<Contact> contacts) {
 		for(int i = 0; i < contacts.size(); i++) {
 			this.contactViews.add(new ContactView(contacts.get(i)));
 		}

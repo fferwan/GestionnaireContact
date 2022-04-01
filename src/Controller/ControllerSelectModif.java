@@ -6,8 +6,13 @@ import java.awt.event.MouseListener;
 import javax.swing.JTextField;
 import javax.swing.JList;
 
-import Model.Contact;
+/*
 import Model.GestionnaireContacts;
+import Model.Contact;
+*/
+
+import ModelHibernate.GestionnaireContacts;
+import ModelHibernate.Contact;
 
 public class ControllerSelectModif implements MouseListener {
 	

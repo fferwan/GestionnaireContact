@@ -1,27 +1,29 @@
 package Main;
 
-import View.Window;
-import View.WindowUtilisateurs;
-
-import java.util.ArrayList;
-
-import javax.swing.JButton;
-import javax.swing.JTextField;
-
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
+import View.*;
 import Controller.*;
-import Model.Contact;
-import Model.GestionnaireUtilisateurs;
-public class Main {
 
-	static int a;
+/*import Model.Contact;
+import Model.GestionnaireUtilisateurs;*/
+
+import ModelHibernate.*;
+
+public class Main {
+	
 	public static void main(String[] args) {
-		WindowUtilisateurs windowAppareils = new WindowUtilisateurs();
+
+		WindowUtilisateurs windowUtilisateurs = new WindowUtilisateurs();
 
 		//gestionnaire.setMesContacts(new ArrayList<Contact>());
-		ControllerAjoutUtilisateur controllerAjoutAppareil = new ControllerAjoutUtilisateur(windowAppareils.getGestionnaire(), windowAppareils.getNomTextField(), windowAppareils.getAjouterButton());
-		ControllerSupprUtilisateur controllerSupprAppareil = new ControllerSupprUtilisateur(windowAppareils.getGestionnaire(), windowAppareils.getAppareilsList(), windowAppareils.getSupprimerButton());
-		ControllerSelectUtilisateur controllerModifAppareil = new ControllerSelectUtilisateur(windowAppareils.getGestionnaire(), windowAppareils.getSelectionnerButton(), windowAppareils.getAppareilsList());
-		windowAppareils.show();
+		ControllerAjoutUtilisateur controllerAjoutUtilsateur = new ControllerAjoutUtilisateur(windowUtilisateurs.getGestionnaire(), windowUtilisateurs.getNomTextField(), windowUtilisateurs.getAjouterButton());
+		ControllerSupprUtilisateur controllerSupprUtilisateur = new ControllerSupprUtilisateur(windowUtilisateurs.getGestionnaire(), windowUtilisateurs.getAppareilsList(), windowUtilisateurs.getSupprimerButton());
+		ControllerSelectUtilisateur controllerModifUtilisateur = new ControllerSelectUtilisateur(windowUtilisateurs.getGestionnaire(), windowUtilisateurs.getSelectionnerButton(), windowUtilisateurs.getAppareilsList());
+		ControllerSelectModifUtilisateur controllerSelectModifUtilisateur = new ControllerSelectModifUtilisateur(windowUtilisateurs.getGestionnaire(), windowUtilisateurs.getNomTextField(), windowUtilisateurs.getAppareilsList());
+		windowUtilisateurs.show();
 	}
 
 }

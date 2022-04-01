@@ -8,13 +8,19 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.*;
 
-import Model.Contact;
+/*
 import Model.GestionnaireContacts;
+import Model.Contact;
+*/
+
+import ModelHibernate.GestionnaireContacts;
+import ModelHibernate.Contact;
 
 public class Window extends JFrame implements Observer{
 
@@ -23,13 +29,13 @@ public class Window extends JFrame implements Observer{
 	private final static double screenHeight = Toolkit.getDefaultToolkit( ).getScreenSize().getHeight();
 	private final static int windowWidth = 500;
 	private final static int windowHeight = 600;
-
+	
 	private GridBagConstraints leftPanelConstraints;
 	private GridBagConstraints contactsConstraints;
 	
-	private JPanel leftPanel;				//Left panel
+	private JPanel leftPanel;		//Left panel
 	private JPanel contactsPanel;	//Right panel
-
+	
 	//Dans leftPanel
 	private JPanel choixPanel;
 	private JButton ajouterButton;
@@ -109,7 +115,7 @@ public class Window extends JFrame implements Observer{
 		contactsList.updateUI();
 	}
 
-	public void ajouterContacts(ArrayList<Contact> contacts) {
+	public void ajouterContacts(List<Contact> contacts) {
 		this.model.removeAllElements();
 		for(int i = 0; i < contacts.size(); i++) {
 			model.addElement(contacts.get(i));

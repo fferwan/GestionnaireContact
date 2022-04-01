@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -16,7 +17,13 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import Model.*;
+/*
+import Model.GestionnaireContacts;
+import Model.Contact;
+*/
+
+import ModelHibernate.GestionnaireUtilisateurs;
+import ModelHibernate.Utilisateur;
 
 public class WindowUtilisateurs extends JFrame implements Observer{
 	
@@ -100,7 +107,7 @@ public class WindowUtilisateurs extends JFrame implements Observer{
 		appareilsList.updateUI();
 	}
 
-	public void ajouterAppareils(ArrayList<Utilisateur> appareils) {
+	public void ajouterAppareils(List<Utilisateur> appareils) {
 		this.model.removeAllElements();
 		for(int i = 0; i < appareils.size(); i++) {
 			model.addElement(appareils.get(i));

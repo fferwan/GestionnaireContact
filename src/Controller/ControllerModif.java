@@ -7,8 +7,13 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JList;
 
+/*
 import Model.GestionnaireContacts;
 import Model.Contact;
+*/
+
+import ModelHibernate.GestionnaireContacts;
+import ModelHibernate.Contact;
 
 public class ControllerModif implements ActionListener {
 	
@@ -31,13 +36,11 @@ public class ControllerModif implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		System.out.println("coucou");
-		int index = this.listContacts.getSelectedIndex();
-		System.out.println("index : " + index);
-		Contact oldContact = gestionnaire.getMesContacts().get(index);
-		System.out.println(oldContact.getNum());
-		Contact newContact = new Contact(this.nom.getText(), this.prenom.getText(), this.numero.getText());
-		System.out.println(newContact.getNum());
-		this.gestionnaire.modifier(newContact, oldContact, index);
+		int indexList = this.listContacts.getSelectedIndex();
+		String nom = this.nom.getText();
+		String prenom =this.prenom.getText();
+		String num = this.numero.getText();
+		this.gestionnaire.modifyContact(indexList, nom, prenom, num);
 		System.out.println("on a modifié");
 	}
 }

@@ -1,9 +1,31 @@
 package Model;
 
+import java.io.*;
+import java.util.List;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name="utilisateurs")
 public class Utilisateur {
 	
+	@Id
+	@Column(name="id_utilisateurs")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private int id;
+	
+	@Column(name="name")
 	private String nom;
+	
+	@OneToMany(mappedBy="utilisateur", cascade=CascadeType.ALL)
+	private List<Contact> contacts;
+	
+	@Transient
 	private GestionnaireContacts gestionnaire;
+	
+	public Utilisateur(){
+    
+	}
 	
 	public Utilisateur(String nom)
 	{

@@ -1,7 +1,13 @@
 package Controller;
 
+/*
 import Model.GestionnaireUtilisateurs;
-import Model.Utilisateur;
+import Model.Contact;
+*/
+
+import ModelHibernate.GestionnaireUtilisateurs;
+import ModelHibernate.Contact;
+import ModelHibernate.Utilisateur;
 
 import javax.swing.JButton;
 import javax.swing.JTextField;

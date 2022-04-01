@@ -1,7 +1,12 @@
 package Controller;
 
+/*
 import Model.GestionnaireUtilisateurs;
-import Model.Utilisateur;
+import Model.Utilisateurs;
+*/
+
+import ModelHibernate.GestionnaireUtilisateurs;
+import ModelHibernate.Utilisateur;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
